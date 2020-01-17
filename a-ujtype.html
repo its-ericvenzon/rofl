@@ -1,0 +1,70 @@
+<?php
+    include ('a-session.php');
+?>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab Administrator</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+    <script src="assets/js/jquery.min.js"></script>
+
+	<script>
+        $(document).ready(function() {
+            //using $.ajax() function
+                $(document).on('submit', '#updatejoketype', function () {
+                    //get variables from registration form
+                    var joketype = document.getElementById('joketypenew').value;
+					//var genre = $('#genre').val();
+					var jTypeID = $('#jTypeID').html();
+					
+                    $.ajax({
+                        url: 'a-updatejtype.php',
+                        type: 'post',
+                        data: {
+                            joketype: joketype,
+							jTypeID: jTypeID
+                        },
+                        success: function(message) {						
+                            alert(message);  
+							window.location = "a-mod-data.html";							
+                        }
+                    });
+                    return false;
+                });
+        });
+    </script>
+</head>
+<body>		
+<div class="contact-clean">	
+		<form method='post' id='updatejoketype' name='updatejoketype'>
+			<div class="col"><h4>Update Joke Type: <a id='jTypeID'><?php echo $_GET['id'];?></a> in the Database</h4><hr>        
+            <div class='form-group'><label>Joke Type</label><input class='form-control' type='text' name='joketypenew' id='joketypenew' required><label>Current Joke Type Name: &nbsp</label><?php include('a-getjoketype.php');?></div>	
+		  <div class="form-group d-flex justify-content-center"><button class="btn btn-primary" type="submit" id="submit">Update</button></div>
+		</form>	
+</div>
+
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/a-popover.js"></script>
+<script src="assets/js/add-rem-elements.js"></script>
+<script src="assets/js/dropdown.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
+<script src="assets/js/u-popover.js"></script>
+<script src="assets/js/selectdropdown.js"></script>
+</body>
+</html>

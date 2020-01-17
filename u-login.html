@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/jquery.min.js"></script>
+ 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+    <script>
+        $(document).ready(function() {
+            //using $.ajax() function
+            $('#log').click(function () {
+                var username = document.getElementById('username').value;
+                var pwd = document.getElementById('password').value;
+
+                $.ajax({
+                    url:'u-login.php',
+                    type:'post',
+                    data: {
+                        un:username,
+                        pwd:pwd
+                    },
+                    success: function(message) {
+                        alert(message);
+                        if (message == 'Successful Login'){
+                            window.location = "u-dashboard.html";
+                        }
+                    },
+                    error: function(message) {
+                        alert(message);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+    <!--forgot username script-->
+    <script>
+        $(document).ready(function() {
+            //using $.ajax() function
+            $('#emailsubmit').click(function () {
+                var email = document.getElementById('email').value;
+                $.ajax({
+                    url:'send-username-email.php',
+                    type:'post',
+                    data: {
+                        email:email,
+                    },
+                    success: function(message) {
+                        alert(message);
+                    },
+                    error: function(message) {
+                        alert(message);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+    <!--forgot password script-->
+    <script>
+        $(document).ready(function() {
+            //using $.ajax() function
+            $('#resetpwdsubmit').click(function () {
+                var username = document.getElementById('pusername').value;
+                var email = document.getElementById('pemail').value;
+                $.ajax({
+                    url:'send-password-reset.php',
+                    type:'post',
+                    data: {
+                        un:username,
+                        email:email
+                    },
+                    success: function(message) {
+                        alert(message);
+                    },
+                    error: function(message) {
+                        alert(message);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="login-clean">
+    <!--enctype='multipart/form-data'-->
+    <form method='post' name='loginform' id='loginform'>
+        <h2 class="sr-only">Login Form</h2>
+        <div class="illustration"><img src="assets/img/index.png" alt="rofllogo" width="125">
+            <h1 class="m-logo">ROFL</h1>
+            <h6>Research On Funniness Lab</h6>
+        </div>
+        <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Username" id="username" required></div>
+        <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" id="password" required></div>
+        <div id="invalid"></div>
+        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" id="log">Log In</button></div>
+        <a href="#fusername" class="forgot" data-toggle="modal">Forgot Username</a>
+        <a href="#fpasswd" class="forgot" data-toggle="modal">Forgot Password</a>
+        <a href="Registration.html" class="forgot">Register</a>
+    </form>
+</div>
+
+<div class="modal fade" role="dialog" tabindex="-1" id="fpasswd">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Forgot Your Password?</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+            <div class="modal-body">
+                <form>
+                    <p>Please enter the e-mail address associated with your user account to reset password.</p>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Username" style="height:42px;margin-bottom:10px;" id="pusername">
+                        <input class="form-control" type="email" placeholder="Email Address" style="height:42px;" id="pemail">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn btn-primary" type="button" style="margin-top:0px;" id="resetpwdsubmit">Submit</button></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="fusername">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Forgot Your Username?</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+            <div class="modal-body">
+                <p>Please enter the email address associated with your user account. Your username will be emailed to the email address on file.</p>
+                <form>
+                    <input class="form-control" type="email" required="" placeholder="Email Address" style="height:42px;" id="email">
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn btn-primary" type="button" style="margin-top:0px;" id="emailsubmit">Submit</button></div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/a-popover.js"></script>
+<script src="assets/js/add-rem-elements.js"></script>
+<script src="assets/js/dropdown.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
+<script src="assets/js/u-popover.js"></script>
+<script src="assets/js/selectdropdown.js"></script>
+</body>
+
+</html>

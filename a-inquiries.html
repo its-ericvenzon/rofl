@@ -1,0 +1,215 @@
+<?php
+    include ('a-session.php');
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab Administrator</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu-admin.css">
+    <link rel="stylesheet" href="assets/css/sidebar-admin.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+    <script src="assets/js/jquery.min.js"></script>
+	
+    <script>
+        $(document).ready(function() {
+            //using $.ajax() function
+                $(document).on('submit', '#notif', function () {
+                    //get variables from registration form
+					var email = document.getElementById('email').value;
+                    var often= $('#often').text();
+                    var day = $('#day').text();
+                    var time = $('#time').text();
+
+                    alert (email + often + day + time);
+                    //alert(email + often + day + time);
+                    if (often == 'Select How Often') {
+                        alert('Please select how often.');
+                        return false;
+                    }
+                    if (day == 'Select Day') {
+                        alert('Please select a day.');
+                        return false;
+                    }
+                    if (time == 'Select Time') {
+                        alert('Please select a time.');
+                        return false;
+                    }
+					
+					$.ajax({
+                        url: 'a-inquiry1.php',
+                        type: 'post',
+                        data: {
+                            em: email,
+                            often: often,
+							day: day,
+							time: time
+                        },
+                        success: function(message) {
+                            alert(message);
+                            window.location = "a-inquiries.html";
+                        }
+                    });
+                    return false;
+                });
+        });
+    </script>
+	
+	<script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "a-popover.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    var element = document.getElementById("adminButton");
+                    element.setAttribute("data-content", data);
+                }});
+            $.ajax({
+                    url: "a-popoverUN.php",
+                    type: "post",
+                    data: "",
+                    dataType: "html",
+                    success: function(data){
+                        $("#adminButton").html(data);
+                }});
+        });
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="sidebar-wrapper-admin">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a class="s-logo" href="a-dashboard.html"><img src="assets/img/navbar.png" width="50px" margin-right="10px"/> ROFL</a></li>
+                <li class="sidebar-user">
+                    <button id="adminButton"
+                            type="button"
+                            class="btn btn-dark"
+							data-trigger="focus"
+                            data-toggle="popover"
+                            data-title=""
+                            data-content="
+                                    <div class='media'></a>
+                                        <div class='media-body'>
+                                            <p><table class='popovertext'>
+                                            <tr><td>Admin:</td><td> </td></tr>
+                                            </table><hr/>
+                                            <a role='button' class='btn btn-warning btn-sm' href='logout.php'>Logout</button></p>
+                                        </div>
+                                    </div>">
+                        Administrator
+                    </button>
+                </li>
+                <li> <a href="a-dashboard.html"><i class="fa fa-dashboard"></i>&nbsp Dashboard</a></li>
+                <li> <a href="#"><i class="fa fa-comments"></i>&nbsp Inquiries</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid container-style"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1>Inquiries</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%"></th>
+                                            <th style="width:5%">ID</th>
+                                            <th style="width:20%">Email Address</th>
+                                            <th style="width:50%">Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>									
+									<?php include('a-inquiry.php')?>					
+                                    </tbody>
+                                </table>
+                            </div>
+							</div>
+                        <hr>
+                    </div>
+                </div>
+				
+                <div class="row">
+                    <div class="col">                          
+						<form method="post" id="notif" name="notif">
+                            <div style="margin-bottom:20px;"><table class="style-backup">
+    <tr>
+        <td><h6>Email Address</h6></td>
+        <td>
+            <input class="form-control" type="email" name="email" id="email" required/>
+        </td>
+    </tr>
+    
+    <tr>
+        <td><h6>How Often</h6></td>
+        <td><div class="dropdown">
+		<button float="left" class="btn btn-success dropdown-toggle dp-width" data-toggle="dropdown" aria-expanded="false" type="button" id="often" name="often">Select How Often</button>
+                <div class="dropdown-menu" role="menu">
+                    <?php
+                        include ('getHowoften.php');
+                    ?>
+                  </div>
+        </div></td>
+    </tr>
+     <tr>
+        <td><h6>Day</h6></td>
+        <td><div class="dropdown"><button float="left" class="btn btn-success dropdown-toggle dp-width" data-toggle="dropdown" aria-expanded="false" type="button" id="day" name="day">Select Day</button>
+                <div class="dropdown-menu" role="menu">
+                    <?php
+                        include ('getNotiday.php');
+                    ?>
+                </div>
+        </div></td>
+    </tr>
+     <tr>
+        <td><h6>Time</h6></td>
+        <td><div class="dropdown"><button float="left" class="btn btn-success dropdown-toggle dp-width" data-toggle="dropdown" aria-expanded="false" type="button" id="time" name="time">Select Time</button>
+                <div class="dropdown-menu" role="menu">
+                    <?php
+                        include ('getNotitime.php');
+                    ?>
+                </div>
+        </div></td>
+    </tr>
+</table>
+    <button class="btn btn-success" type="submit" id="submit">Save Changes</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/a-popover.js"></script>
+    <script src="assets/js/add-rem-elements.js"></script>
+    <script src="assets/js/dropdown.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
+    <script src="assets/js/u-popover.js"></script>
+    <script src="assets/js/selectdropdown.js"></script>
+</body>
+</html>

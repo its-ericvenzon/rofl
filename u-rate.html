@@ -1,0 +1,208 @@
+<?php include ('session.php');?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar-user.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+    <script src="assets/js/jquery.min.js"></script>
+
+    <!--Populate popover with user's info-->
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "popover.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    var element = document.getElementById("userButton");
+                    element.setAttribute("data-content", data);
+                }});
+            $.ajax({
+                url: "popoverUN.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    //var element = document.getElementById("userButton");
+                    //element.setAttribute("data-title", data);
+                    $("#userButton").html(data);
+                }});
+        });
+    </script>
+
+    <!--submits report form without refreshing-->
+    <script>
+        $(document).ready(function() {
+            $('#submit-report').click(function () {
+                var message = document.getElementById('report-message').value;
+                var jokeID = document.getElementById('jokeIDReport').innerHTML;
+                var subject = $('#subject').text();
+
+                $.ajax({
+                    url: 'report-Joke.php',
+                    type: 'post',
+                    data: {
+                        message: message,
+                        jokeID:jokeID,
+                        subject:subject
+                    },
+                    success: function(response) {
+                        alert(response);
+                        if (response == 'Message Sent. Thank you for Contacting Us.'){
+                            window.location.reload()
+                        }
+                    },
+                    error: function(response){
+                        alert(response);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+    <!--submit joke rating without refresh-->
+    <script>
+        $(document).ready(function() {
+
+            $('#submit-rate').click(function () {
+                var rating = $('input[name=star]:checked').val();
+				
+				if (typeof rating === 'undefined'){
+					alert('Rating is missing');
+				}else{
+					var jokeID = $('#jokeID').text();
+					$.ajax({
+						url:'u-rate.php',
+						type:'post',
+						data: {
+							rating:rating,
+							jokeID:jokeID
+						},
+						success: function(message) {
+							alert(message);
+							//window.location = "u-dashboard.html";
+							if (message == 'Rate Submission Successful. Thank you!'){
+                                window.location.reload();
+							}
+						},
+						error: function(message) {
+							alert(message);
+						}
+					});
+					return false;
+				}
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a href="u-dashboard.html" class="s-logo"><img src="assets/img/navbar.png" width="50px" margin-right="10px"/> ROFL</a></li>
+                <li class="sidebar-user">
+                    <button id="userButton"
+                            type="button"
+                            class="btn btn-dark"
+							data-trigger="focus"
+                            data-toggle="popover"
+                            data-title=""
+                            data-content="
+                                    <div class='media'></a>
+                                        <div class='media-body'>
+                                            <p><table class='popovertext'>
+                                            <tr><td>Age:</td><td> </td></tr><td>Country:</td><td> </td></tr>
+                                            <td>Education:</td><td> </td></tr><td>Gender:</td><td> </td></tr>
+                                            </table><hr/>
+                                            <a role='button' class='btn btn-warning btn-sm' href='u-logout.php'>Logout</button> &nbsp
+                                            <a role='button' class='btn btn-dark btn-sm' href='u-deactivate.html'>Deactivate Account </a></p>
+                                        </div>
+                                    </div>">
+                        User
+                    </button>
+                </li>
+                <li> <a href="u-dashboard.html"><i class="fa fa-dashboard"></i>&nbsp Dashboard</a></li>
+                <li> <a href="u-my-jokes.html"><i class="fa fa-book"></i>&nbsp My Jokes</a></li>
+                <li> <a href="u-my-rated-jokes.html"><i class="fa fa-star"></i>&nbsp My Rated Jokes</a></li>
+                <li> <a href="u-contact-us.html"><i class="fa fa-envelope"></i>&nbsp Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid container-style"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1>Rate A Joke</h1>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <h5>Instruction:</h5>
+                            <p style="margin-bottom:0px;">Read the randomly given joke to you. If you think it's hella funny, give it five stars. If not then, give it a one. When you're done, hit that Rate button! If you have any concern with this joke, hit that Report button and let us know why.</p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="row content-area">
+                    <div class="col">
+                        <div>
+                            <form name="rating" id="rating">
+
+
+								<?php
+									include('getJoke.php');
+								?>
+
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/a-popover.js"></script>
+    <script src="assets/js/add-rem-elements.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
+    <script src="assets/js/u-popover.js"></script>
+    <script src="assets/js/selectdropdown.js"></script>
+
+</body>
+
+</html>
+
+
+<!--
+<button class="btn btn-warning btn-sm" type="button" id="btn-report" data-toggle="modal" href="#report-joke">Report</button>
+<p id="jokeID"></p>
+<p id="joke-content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
+make a type specimen book.<br><br>
+</p> -->

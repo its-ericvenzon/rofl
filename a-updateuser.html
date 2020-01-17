@@ -1,0 +1,155 @@
+<?php
+    include ('a-session.php');
+?>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab Administrator</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+    <script src="assets/js/jquery.min.js"></script>
+
+	 <script>
+        $(document).ready(function() {
+            //using $.ajax() function
+                $(document).on('submit', '#updateuser', function () {
+                    //get variables from registration form
+                    var active = $('input[name=active]:checked').val();
+                    var age = $('#age').text();
+                    var country = $('#country').text();
+                    var education = $('#edu').text();
+                    var gender = $('input[name=gender]:checked').val();
+					var userID = $('#userID').html();
+
+                    if (age == 'Select Age') {
+                        alert('Please select an age range.');
+                        return false;
+                    }
+                    if (country == 'Select Country') {
+                        alert('Please select a country.');
+                        return false;
+                    }
+                    if (education == 'Select Education Level') {
+                        alert('Please select an education option.');
+                        return false;
+                    }
+                    if (!$("input:radio[name='gender']").is(":checked")) {
+                        alert('Please select a gender.');
+                        return false;
+                    }
+					if (!$("input:radio[name='active']").is(":checked")) {
+                        alert('Select Active or not.');
+                        return false;
+                    }
+
+                    $.ajax({
+                        url: 'a-updateuser.php',
+                        type: 'post',
+                        data: {
+                            active: active,
+                            age: age,
+                            country: country,
+                            education: education,
+                            gender: gender,
+							userID: userID
+                        },
+                        success: function(message) {							
+                            alert(message);
+							window.location = "a-mod-data.html";
+                            
+                        }
+                    });
+                    return false;
+                });
+        });
+    </script>
+</head>
+			<body>		
+<div class="contact-clean">			
+				<form method='post' id='updateuser' name='updateuser'>
+			<div class="col"><label class="col-form-label">Update UserID: <a id='userID'><?php echo $_GET['id'];?></a> in the Database</label>
+            </div>
+            <div class="form-group"><label>Active</label>
+            <div class="form-row">
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="1" name="active" value="1"><label class="form-check-label" for="1">Yes</label></div>
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="0" name="active" value="0"><label class="form-check-label" for="0">No</label></div>
+                </div>
+            </div>
+        </div>
+            <div class="form-row">
+            <div class="col"><label class="col-form-label">Age</label>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="age" style="margin-top:0px;" id="age">Select Age</button>
+                    <div class="dropdown-menu" role="menu">
+                        <?php
+                            include ('getAgeGroups.php');
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col"><label class="col-form-label">Country</label>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" style="margin-top:0px;" id="country">Select Country</button>
+                    <div class="dropdown-menu dp-style" role="menu">
+                        <?php
+                            include ('getCountries.php');
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group" style="margin-bottom:0px;margin-top:10px;"><label>Education Level</label>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" style="margin-top:0px;" id="edu">Select Education Level</button>
+                        <div class="dropdown-menu" role="menu">
+                            <?php
+                                include ('getEducation.php');
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"><label>Gender</label>
+            <div class="form-row">
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="gender1" name="gender" value="Male"><label class="form-check-label" for="gender1">Male</label></div>
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="gender2" name="gender" value="Female"><label class="form-check-label" for="gender2">Female</label></div>
+                </div>
+                <div class="col d-flex justify-content-center" id="radiocenter">
+                    <div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="gender3" name="gender" value="Other"><label class="form-check-label" for="gender3">Other</label></div>
+                </div>
+            </div>
+        </div>
+		  <div class="form-group d-flex justify-content-center"><button class="btn btn-primary" type="submit" id="submit">Update</button></div>
+		</form>
+		</div>
+		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/a-popover.js"></script>
+<script src="assets/js/add-rem-elements.js"></script>
+<script src="assets/js/dropdown.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
+<script src="assets/js/u-popover.js"></script>
+<script src="assets/js/selectdropdown.js"></script>
+</body>
+</html>

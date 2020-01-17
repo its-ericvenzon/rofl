@@ -1,0 +1,233 @@
+<?php include ('session.php');?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/loader.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar-user.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+
+    <script src="assets/js/jquery.min.js"></script>
+
+    <!--Populate popover with user's info-->
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "popover.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    var element = document.getElementById("userButton");
+                    element.setAttribute("data-content", data);
+                }});
+            $.ajax({
+                url: "popoverUN.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    //var element = document.getElementById("userButton");
+                    //element.setAttribute("data-title", data);
+                    $("#userButton").html(data);
+                }});
+        });
+    </script>
+
+    <!--Submits jokeForm without refreshing or redirecting-->
+	<script>
+        $(document).ready(function() {
+            //using $.ajax() function
+            $(document).on('submit', '#jokeForm', function(){
+                var jgenre1=$('#joke-genre1').text();
+                var jgenre2=$('#joke-genre2').text();
+                var jgenre3=$('#joke-genre3').text();
+
+                if(document.getElementById("joke-type").innerHTML == 'Joke Type'){
+                    alert('Please select Joke Type');
+                    return false;
+                }
+                if (jgenre1 == 'Joke Genre' && jgenre2 == 'Joke Genre' && jgenre3 == 'Joke Genre'){
+                    alert('Please select at least one Joke Genre');
+                    return false;
+                }
+
+                var description=document.getElementById('description').value;
+                var jtype=$('#joke-type').text();
+                var nsfc = $("#formCheck-1").prop('checked'); //nsfc = not safe for children
+
+
+                $.ajax({
+                    type:'post',
+                    url:'u-submit.php',
+                    data: {
+                        jtype:jtype,
+                        jgenre1:jgenre1,
+                        jgenre2:jgenre2,
+                        jgenre3:jgenre3,
+						description:description,
+						nsfc:nsfc
+                    },
+                    success: function(result) {
+                        alert(result);
+                        window.location = "u-submit.html";
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a href="u-dashboard.html" class="s-logo"><img src="assets/img/navbar.png" width="50px" margin-right="10px"/> ROFL</a></li>
+                <li class="sidebar-user">
+                    <button id="userButton"
+                            type="button"
+                            class="btn btn-dark"
+							data-trigger="focus"
+                            data-toggle="popover"
+                            data-title=""
+                            data-content="
+                                    <div class='media'></a>
+                                        <div class='media-body'>
+                                            <p><table class='popovertext'>
+                                            <tr><td>Age:</td><td> </td></tr><td>Country:</td><td> </td></tr>
+                                            <td>Education:</td><td> </td></tr><td>Gender:</td><td> </td></tr>
+                                            </table><hr/>
+                                            <a role='button' class='btn btn-warning btn-sm' href='u-logout.php'>Logout</button> &nbsp
+                                            <a role='button' class='btn btn-dark btn-sm' href='u-deactivate.html'>Deactivate Account </a></p>
+                                        </div>
+                                    </div>">
+                        User
+                    </button>
+                </li>
+                <li> <a href="u-dashboard.html"><i class="fa fa-dashboard"></i>&nbsp Dashboard</a></li>
+                <li> <a href="u-my-jokes.html"><i class="fa fa-book"></i>&nbsp My Jokes</a></li>
+                <li> <a href="u-my-rated-jokes.html"><i class="fa fa-star"></i>&nbsp My Rated Jokes</a></li>
+                <li> <a href="u-contact-us.html"><i class="fa fa-envelope"></i>&nbsp Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid container-style"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1>Submit A Joke</h1>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <h5>Instruction:</h5>
+                            <p style="margin-bottom:0px;">Simply enter your joke in the text box. Check that "+18" check box if it's not suitable for under 18 or else it will be flagged. Your joke should be one of the joke types given and if you can't find it, contact us. You are allowed to at least indicate one joke genre or else go crazy with three!<br><br></p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" name="jokeForm" id="jokeForm">
+                    <div class="form-row">
+                        <div class="col">
+                            <div><textarea class="form-control" rows="5" required="" placeholder="Say something funny.." id="description"></textarea></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <div class="col">
+                            <div>
+                                <div class="form-check">
+									<input class="form-check-input" type="checkbox" id="formCheck-1">
+									<label class="form-check-label" for="formCheck-1">+18</label>
+								</div>
+                                <div class="dropdown">
+									<button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="joke-type">Joke Type</button>
+                                    <div class="dropdown-menu dp-style" role="menu">
+                                        <?php
+                                            include ('getJokeTypes.php');
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-lg" type="submit" id="submit" data-toggle="modal">Submit Joke</button></div>
+
+                        <div class="col">
+                            <div class="dropdown">
+                                <button style="margin-bottom:10px;" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="joke-genre1">Joke Genre</button>
+                                <div role="menu" class="dropdown-menu dp-style">
+                                    <?php
+										include ('getJokeGenres.php');
+									?>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button style="margin-bottom:10px;" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="joke-genre2">Joke Genre</button>
+                                <div role="menu" class="dropdown-menu dp-style" >
+                                    <?php
+										include ('getJokeGenres.php');
+									?>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="joke-genre3">Joke Genre</button>
+                                <div role="menu" class="dropdown-menu dp-style">
+                                    <?php
+										include ('getJokeGenres.php');
+									?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="accepted">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Submission Accepted</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body" style="padding-right:50px;padding-left:50px;">
+                    <form><a class="btn btn-secondary float-left" role="button" href="u-rate.html">Close</a><a class="btn btn-primary float-right" role="button" href="u-submit.html">Submit Another</a></form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/a-popover.js"></script>
+    <script src="assets/js/add-rem-elements.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
+    <script src="assets/js/u-popover.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/selectdropdown.js"></script>
+</body>
+
+</html>
+	
+	    

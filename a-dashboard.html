@@ -1,0 +1,180 @@
+<?php
+    include ('a-session.php');
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab Administrator</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu-admin.css">
+    <link rel="stylesheet" href="assets/css/sidebar-admin.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+	<script src="assets/js/jquery.min.js"></script>
+	
+	
+ 	<script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "a-popover.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    var element = document.getElementById("adminButton");
+                    element.setAttribute("data-content", data);
+                }});
+            $.ajax({
+                    url: "a-popoverUN.php",
+                    type: "post",
+                    data: "",
+                    dataType: "html",
+                    success: function(data){
+                        $("#adminButton").html(data);
+                }});
+        });
+    </script>
+	
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="sidebar-wrapper-admin">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a class="s-logo"><img src="assets/img/navbar.png" width="50px" margin-right="10px"/> ROFL</a></li>
+                
+				<li class="sidebar-user">
+                    <button id="adminButton"
+                            type="button"
+                            class="btn btn-dark"
+							data-trigger="focus"
+                            data-toggle="popover"
+                            data-title=""
+                            data-content="
+                                    <div class='media'></a>
+                                        <div class='media-body'>
+                                            <p><table class='popovertext'>
+                                            <tr><td>Admin:</td><td> </td></tr>
+                                            </table><hr/>
+                                            <a role='button' class='btn btn-warning btn-sm' href='logout.php'>Logout</button></p>
+                                        </div>
+                                    </div>">
+                        Administrator
+                    </button>
+                </li>
+			
+                <li> <a href="#"><i class="fa fa-dashboard"></i>&nbsp Dashboard</a></li>
+                <li> <a href="a-inquiries.html"><i class="fa fa-comments"></i>&nbsp Inquiries</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid container-style"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1>Dashboard</h1>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="height:250px;">
+                    <div class="col col-dash"><a class="btn btn-success d-flex justify-content-center align-items-center btn-dashboard" role="button" href="a-gen-stats.html"><img src="assets/img/btn-gen.png" width="300px" alt="Generate statistics"/></a></div>
+                    <div class="col col-dash"><a class="btn btn-success d-flex justify-content-center align-items-center btn-dashboard" role="button" href="a-mod-data.html"><img src="assets/img/btn-mod.png" width="300px" alt="Modify Database"/></a></div>
+                </div>
+                <hr>
+                <div class="row preview-row">
+                    <div class="col">
+                        <h5>Statistics</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"><div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="blue">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Total Users</p>
+                                    <h3 class="title">
+									<?php
+										include ('getTotalUsers.php');
+									?>
+                                    </h3>
+                                </div>       
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="green">
+                                    <i class="fa fa-book"></i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Total Jokes</p>
+                                    <h3 class="title">
+									<?php
+										include('getTotalJokes.php')
+									?>
+									</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="red">
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Total Ratings</p>
+                                    <h3 class="title">
+									<?php
+										include('getTotalRatings.php')
+									?>
+									</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="orange">
+                                    <i class="fa fa-comments"></i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Total Inquiries</p>
+                                    <h3 class="title">
+									<?php
+										include('getTotalInquiries.php')
+									?>
+									</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/a-popover.js"></script>
+    <script src="assets/js/add-rem-elements.js"></script>
+    <script src="assets/js/dropdown.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
+    <script src="assets/js/selectdropdown.js"></script>
+</body>
+
+</html>

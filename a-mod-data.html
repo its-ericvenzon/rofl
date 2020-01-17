@@ -1,0 +1,176 @@
+<?php
+    include ('a-session.php');
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab Administrator</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/loader.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu-admin.css">
+    <link rel="stylesheet" href="assets/css/sidebar-admin.css"> 
+	<link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+	<script src="assets/js/jquery.min.js"></script>
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+	<script>
+		$(document).ready(function() {
+			//using $.ajax() function	
+				$("#tables").change(function() {
+					
+					//get variable to generate stat from
+					table = $("#tables option:selected").text();			
+					
+					if (table == 'Select a Table:') {
+					alert('Please select a table.')
+					return false;
+					}
+					$.ajax({
+						url: 'a-mod-data.php',
+						type: 'post',
+						data: {
+							table: table
+						},
+						success: function(data) {
+				
+							$('#record').html(data);
+                            
+						}
+					});
+					return false;
+				});
+
+		});
+	</script>
+	
+	<script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "a-popover.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    var element = document.getElementById("adminButton");
+                    element.setAttribute("data-content", data);
+                }});
+            $.ajax({
+                    url: "a-popoverUN.php",
+                    type: "post",
+                    data: "",
+                    dataType: "html",
+                    success: function(data){
+                        $("#adminButton").html(data);
+                }});
+        });
+    </script>
+	
+	<script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "a-popover.php",
+                type: "post",
+                data: "",
+                dataType: "html",
+                success: function(data){
+                    var element = document.getElementById("adminButton");
+                    element.setAttribute("data-content", data);
+                }});
+            $.ajax({
+                    url: "a-popoverUN.php",
+                    type: "post",
+                    data: "",
+                    dataType: "html",
+                    success: function(data){
+                        $("#adminButton").html(data);
+                }});
+        });
+    </script>
+</head>
+
+<body>
+	
+    <div id="wrapper">
+        <div id="sidebar-wrapper-admin">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a class="s-logo" href="a-dashboard.html"><img src="assets/img/navbar.png" width="50px" margin-right="10px"/> ROFL</a></li>
+                <li class="sidebar-user">
+                    <button id="adminButton"
+                            type="button"
+                            class="btn btn-dark"
+							data-trigger="focus"
+                            data-toggle="popover"
+                            data-title=""
+                            data-content="
+                                    <div class='media'></a>
+                                        <div class='media-body'>
+                                            <p><table class='popovertext'>
+                                            <tr><td>Admin:</td><td> </td></tr>
+                                            </table><hr/>
+                                            <a role='button' class='btn btn-warning btn-sm' href='logout.php'>Logout</button></p>
+                                        </div>
+                                    </div>">
+                        Administrator
+                    </button>
+                </li>
+                <li> <a href="a-dashboard.html"><i class="fa fa-dashboard"></i>&nbsp Dashboard</a></li>
+                <li> <a href="a-inquiries.html"><i class="fa fa-comments"></i>&nbsp Inquiries</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid container-style"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1>Modify Database</h1>
+                            <hr>
+                        </div>
+                    </div>
+                </div>		
+                <div class="row">
+                    <div class="col"> <label>Database Tables</label>
+					<form method="post" name="moddata" id="moddata">
+						<select name="tables" id="tables">
+							<option value="">Select a Table:</option>
+							<option value="table" name="table" id="admin">Admin</option>
+							<option value="table" name="table" id="country">Country</option>
+							<option value="table" name="table" id="genre">Genre</option>
+							<option value="table" name="table" id="inquiry">Inquiry</option>
+							<option value="table" name="table" id="joke">Joke</option>
+							<option value="table" name="table" id="report">Report</option>
+							<option value="table" name="table" id="joketype">JokeType</option>
+							<option value="table" name="table" id="participant">Participant</option>
+						</select> 
+					</form>
+					<div id="record" name="record" style="margin-top:10px;"></div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/a-popover.js"></script>
+    <script src="assets/js/add-rem-elements.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
+    <script src="assets/js/u-popover.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/selectdropdown.js"></script>
+</body>
+
+</html>

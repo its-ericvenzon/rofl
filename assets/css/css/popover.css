@@ -1,0 +1,17 @@
+.bs-example {
+  margin:200px 150px 0;
+}
+
+.popover-title .close {
+  position:relative;
+  bottom:3px;
+}
+
+.pull-left {
+  margin-left:auto;
+}
+
+.popovertext {
+  font-size:small;
+}
+

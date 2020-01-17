@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROFLab</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bangers">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/loginform.css">
+    <link rel="stylesheet" href="assets/css/popover.css">
+    <link rel="stylesheet" href="assets/css/previewratings.css">
+    <link rel="stylesheet" href="assets/css/registrationform.css">
+    <link rel="stylesheet" href="assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/starratings.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+    <!--script to call phpmailer and send admin contact message-->
+    <script>
+        $(document).ready(function() {
+            //using $.ajax() function
+            $(document).on('submit', '#contactForm', function () {
+                //get variables from contact form
+                var email = document.getElementById('from_email').value;
+                var message = document.getElementById('message').value;
+
+                $.ajax({
+                    url: 'contact-us.php',
+                    type: 'post',
+                    data: {
+                        em: email,
+                        message: message
+                    },
+                    success: function(response) {
+                        alert(response);
+                        window.location = "index.html";
+                    },
+                    error: function(response){
+                        alert(response);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12"><img class="img-fluid c-imgs" src="assets/img/index.gif" alt="rofllogo" width="300">
+                    <h1 class="text-center m-logo">ROFL</h1>
+                    <h6 class="text-center">Research On Funniness Lab</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top:20px;">
+                     <p>Hey! You found us! We're on a quest to find today's funniest joke, and you can help. Sign up for a free account right now to start telling and rating jokes. You'll just have to provide us a few statistics and you're off and running.
+                        Don't worry, we promise not to tell anyone who you are and we also promise to keep your data confidential.<br><a class="float-right" href="#readmore" data-toggle="modal">Read More...</a><br></p>
+                </div>
+                <div class="col">
+                    <div class="btn-group btn-group-lg d-inline-block float-none d-flex flex-row justify-content-center" role="group" style="margin-top:20px;"><a class="btn btn-primary" role="button" href="Registration.html" data-bs-hover-animate="pulse" style="margin-right:10px;">I'm New! Sign me up!</a><a class="btn btn-primary" role="button" href="u-login.html" data-bs-hover-animate="pulse"
+                            style="margin-left:5px;">I've been here before. Log me in!</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-basic" style="margin-top:100px;">
+        <footer class="mb-auto">
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#about" data-toggle="modal">About</a></li>
+                <li class="list-inline-item"><a href="#contact" data-toggle="modal">Contact Us</a></li>
+            </ul>
+            <p class="copyright">ROFLab © 2018</p>
+        </footer>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="contact">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Contact Us</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body" style="padding:0px;">
+                    <form action="javascript:void();" method="get" id="contactForm" style="padding-right:16px;padding-left:16px;">
+                        <div class="form-group has-feedback"><label for="from_email">Email</label><input class="form-control" type="email" name="from_email" required="" autofocus="" id="from_email" style="height:42px;"></div>
+                        <!--<div class="form-group has-feedback"><label for="from_phone">Subject</label><input class="form-control" type="email" name="subject_line" autofocus="" id="from_phone" style="height:42px;"></div>-->
+                        <div class="form-group"><label for="comments">Message</label><textarea class="form-control" rows="5" name="message" required="" placeholder="Write message here..." autofocus="" id="message"></textarea></div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" id="submit">Send <i class="fa fa-chevron-circle-right"></i></button></div>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="readmore">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Research On Funniness Lab</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <p>At the end of this study, we will be crunching the numbers and announcing the “winners” and “losers” and some other statistics about humour around the world. We’ll also be feeding the jokes into our machine learning thingy to try to
+                        emulate humour appreciation. So warm up your funny bone and let’s get to the jokes… But if your joke is noteworthy, we’d like give credit where credit is due. We won’t
+                        publish your name without your express permission.<br></p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="about">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">About The Team</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <h2>Researcher</h2><img class="img-fluid c-imgs" src="assets/img/SG-about.png" alt="StephenGraham" width="150" height="150">
+                    <h5 class="text-center">Stephen Graham</h5>
+                    <p class="text-center">Computer Information Technology Instructor</p>
+                    <hr>
+                    <h2>Developers</h2><img class="img-fluid c-imgs" src="assets/img/ABS-about.png" alt="A-BSolutions" width="150" height="150">
+                    <h5 class="text-center">A-B Solutions</h5>
+                    <p class="text-center">A small web application based team that is created for the Systems Design and Analysis course in Lethbridge College.<br></p>
+                    <div class="row">
+                        <div class="col"><img class="img-fluid c-imgs" src="assets/img/EV-about.png" alt="EricVenzon" width="150" height="150"></div>
+                        <div class="col"><img class="img-fluid c-imgs" src="assets/img/DN-about.png" alt="DavidNam" width="150" height="150"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="text-center">Eric Venzon</h5>
+                            <p class="text-center">Project Team Manager<br></p>
+                        </div>
+                        <div class="col">
+                            <h5 class="text-center">David Nam</h5>
+                            <p class="text-center">Solutions Architect<br></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><img class="img-fluid c-imgs" src="assets/img/MS-about.png" alt="MichaelSaludares" width="150" height="150"></div>
+                        <div class="col"><img class="img-fluid c-imgs" src="assets/img/ADS-about.png" alt="AbdulSamai" width="150" height="150"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="text-center">Michael Saludares</h5>
+                            <p class="text-center">Database Administrator<br></p>
+                        </div>
+                        <div class="col">
+                            <h5 class="text-center">Abdul Samai</h5>
+                            <p class="text-center">User Experience Consultant<br></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/a-popover.js"></script>
+    <script src="assets/js/add-rem-elements.js"></script>
+    <script src="assets/js/dropdown.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
+    <script src="assets/js/u-popover.js"></script>
+    <script src="assets/js/selectdropdown.js"></script>
+</body>
+
+</html>
